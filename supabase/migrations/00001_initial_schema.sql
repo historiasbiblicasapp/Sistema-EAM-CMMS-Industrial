@@ -373,7 +373,7 @@ INSERT INTO public.companies (id, name, slug) VALUES
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER
 LANGUAGE plpgsql
-SECURITY DEFINER SET search_path = ''
+SECURITY DEFINER SET search_path = 'public'
 AS $$
 BEGIN
   INSERT INTO public.profiles (id, name, email, role)
@@ -381,7 +381,7 @@ BEGIN
     NEW.id,
     COALESCE(NEW.raw_user_meta_data->>'name', NEW.email),
     NEW.email,
-    COALESCE(NEW.raw_user_meta_data->>'role', 'technician')::user_role
+    COALESCE(NEW.raw_user_meta_data->>'role', 'technician')::public.user_role
   );
   RETURN NEW;
 END;
