@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Search, Plus, Settings, Filter, MoreHorizontal, QrCode } from 'lucide-react'
+import { Search, Plus, Settings, Filter, MoreHorizontal, QrCode, ChevronRight } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -10,6 +11,7 @@ import type { Equipment } from '@/types'
 import { STATUS_COLORS, CRITICALITY_COLORS } from '@/lib/constants'
 
 export function Equipments() {
+  const navigate = useNavigate()
   const [equipments, setEquipments] = useState<Equipment[]>([])
   const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(true)
@@ -74,7 +76,10 @@ export function Equipments() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
             >
-              <Card className="hover:shadow-md transition-shadow cursor-pointer group">
+              <Card
+                className="hover:shadow-md transition-shadow cursor-pointer group"
+                onClick={() => navigate(`/equipamentos/${equipment.id}`)}
+              >
                 <CardHeader className="pb-3">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
@@ -86,9 +91,7 @@ export function Equipments() {
                         <p className="text-xs text-muted-foreground font-mono">{equipment.tag}</p>
                       </div>
                     </div>
-                    <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100 transition-opacity">
-                      <MoreHorizontal className="h-4 w-4" />
-                    </Button>
+                    <ChevronRight className="h-5 w-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                 </CardHeader>
                 <CardContent>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Plus, Search, Filter, Clock, AlertTriangle, CheckCircle2, Ban } from 'lucide-react'
+import { Plus, Search, Filter, Clock, AlertTriangle, CheckCircle2, Ban, ChevronRight } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -20,6 +21,7 @@ const statusConfig = {
 }
 
 export function WorkOrders() {
+  const navigate = useNavigate()
   const [orders, setOrders] = useState<WorkOrder[]>([])
   const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(true)
@@ -85,7 +87,10 @@ export function WorkOrders() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
             >
-              <Card className="hover:shadow-md transition-shadow cursor-pointer">
+              <Card
+                className="hover:shadow-md transition-shadow cursor-pointer group"
+                onClick={() => navigate(`/ordens/${order.id}`)}
+              >
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-start gap-3 flex-1 min-w-0">

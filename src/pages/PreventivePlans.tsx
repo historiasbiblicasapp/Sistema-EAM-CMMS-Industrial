@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Plus, Search, Filter, CalendarCheck, AlertTriangle, Clock, CheckCircle2 } from 'lucide-react'
+import { Plus, Search, Filter, CalendarCheck, AlertTriangle, Clock, CheckCircle2, ChevronRight } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -29,6 +30,7 @@ const periodicityShort = {
 }
 
 export function PreventivePlans() {
+  const navigate = useNavigate()
   const [plans, setPlans] = useState<PreventivePlan[]>([])
   const [summary, setSummary] = useState<PreventiveSummary | null>(null)
   const [search, setSearch] = useState('')
@@ -107,9 +109,12 @@ export function PreventivePlans() {
 
           return (
             <motion.div key={plan.id} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
-              <Card className={`hover:shadow-md transition-shadow border-l-4 ${
-                isOverdue ? 'border-l-red-500' : isNear ? 'border-l-yellow-500' : 'border-l-green-500'
-              }`}>
+              <Card
+                className={`hover:shadow-md transition-shadow border-l-4 cursor-pointer group ${
+                  isOverdue ? 'border-l-red-500' : isNear ? 'border-l-yellow-500' : 'border-l-green-500'
+                }`}
+                onClick={() => navigate(`/preventivas/${plan.id}`)}
+              >
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1 min-w-0">
@@ -133,14 +138,7 @@ export function PreventivePlans() {
                       }`}>
                         {isOverdue ? `${Math.abs(daysLeft)}d atrasada` : `${daysLeft}d restantes`}
                       </div>
-                      <div className="flex gap-1 mt-2 justify-end">
-                        <Button size="sm" variant="default" className="h-7 text-xs">
-                          Gerar OS
-                        </Button>
-                        <Button size="sm" variant="outline" className="h-7 text-xs">
-                          Visualizar
-                        </Button>
-                      </div>
+                      <ChevronRight className="h-5 w-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity ml-auto mt-2" />
                     </div>
                   </div>
                 </CardContent>

@@ -3,8 +3,11 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Layout } from '@/components/layout/Layout'
 import { Dashboard } from '@/pages/Dashboard'
 import { Equipments } from '@/pages/Equipments'
+import { EquipmentDetail } from '@/pages/EquipmentDetail'
 import { WorkOrders } from '@/pages/WorkOrders'
+import { WorkOrderDetail } from '@/pages/WorkOrderDetail'
 import { PreventivePlans } from '@/pages/PreventivePlans'
+import { PreventivePlanDetail } from '@/pages/PreventivePlanDetail'
 import { Warehouse } from '@/pages/Warehouse'
 import { Indicators } from '@/pages/Indicators'
 import { Reports } from '@/pages/Reports'
@@ -44,8 +47,11 @@ export default function App() {
           >
             <Route path="/" element={<Dashboard />} />
             <Route path="/equipamentos" element={<Equipments />} />
+            <Route path="/equipamentos/:id" element={<EquipmentDetail />} />
             <Route path="/ordens" element={<WorkOrders />} />
+            <Route path="/ordens/:id" element={<WorkOrderDetail />} />
             <Route path="/preventivas" element={<PreventivePlans />} />
+            <Route path="/preventivas/:id" element={<PreventivePlanDetail />} />
             <Route path="/almoxarifado" element={<Warehouse />} />
             <Route path="/compras" element={<div className="p-8 text-center text-muted-foreground">Módulo de Compras em desenvolvimento</div>} />
             <Route path="/contratos" element={<div className="p-8 text-center text-muted-foreground">Módulo de Contratos em desenvolvimento</div>} />
