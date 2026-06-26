@@ -46,7 +46,7 @@ CREATE POLICY "Users can update own profile"
 -- COMPANIES (multi-tenant)
 -- ============================================================
 CREATE TABLE public.companies (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL,
   slug TEXT UNIQUE NOT NULL,
   logo TEXT,
@@ -61,7 +61,7 @@ ALTER TABLE public.companies ENABLE ROW LEVEL SECURITY;
 -- EQUIPMENTS
 -- ============================================================
 CREATE TABLE public.equipments (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   company_id UUID NOT NULL REFERENCES public.companies(id) ON DELETE CASCADE,
   tag TEXT NOT NULL,
   name TEXT NOT NULL,
@@ -102,7 +102,7 @@ CREATE POLICY "Users can view equipments from their company"
 -- WORK ORDERS
 -- ============================================================
 CREATE TABLE public.work_orders (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   company_id UUID NOT NULL REFERENCES public.companies(id) ON DELETE CASCADE,
   number TEXT NOT NULL,
   title TEXT NOT NULL,
@@ -144,7 +144,7 @@ CREATE POLICY "Users can view work orders"
 -- PREVENTIVE PLANS
 -- ============================================================
 CREATE TABLE public.preventive_plans (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   company_id UUID NOT NULL REFERENCES public.companies(id) ON DELETE CASCADE,
   code TEXT NOT NULL,
   title TEXT NOT NULL,
@@ -178,7 +178,7 @@ CREATE POLICY "Users can view preventive plans"
 -- INVENTORY
 -- ============================================================
 CREATE TABLE public.inventory (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   company_id UUID NOT NULL REFERENCES public.companies(id) ON DELETE CASCADE,
   code TEXT NOT NULL,
   name TEXT NOT NULL,
@@ -209,7 +209,7 @@ CREATE POLICY "Users can view inventory"
 -- TEAMS
 -- ============================================================
 CREATE TABLE public.teams (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   company_id UUID NOT NULL REFERENCES public.companies(id) ON DELETE CASCADE,
   name TEXT NOT NULL,
   leader TEXT,
@@ -227,7 +227,7 @@ ALTER TABLE public.teams ENABLE ROW LEVEL SECURITY;
 -- SUPPLIERS
 -- ============================================================
 CREATE TABLE public.suppliers (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   company_id UUID NOT NULL REFERENCES public.companies(id) ON DELETE CASCADE,
   name TEXT NOT NULL,
   cnpj TEXT,
@@ -247,7 +247,7 @@ ALTER TABLE public.suppliers ENABLE ROW LEVEL SECURITY;
 -- CONTRACTS
 -- ============================================================
 CREATE TABLE public.contracts (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   company_id UUID NOT NULL REFERENCES public.companies(id) ON DELETE CASCADE,
   number TEXT NOT NULL,
   supplier_id UUID REFERENCES public.suppliers(id) ON DELETE SET NULL,
@@ -267,7 +267,7 @@ ALTER TABLE public.contracts ENABLE ROW LEVEL SECURITY;
 -- AUDIT LOG
 -- ============================================================
 CREATE TABLE public.audit_logs (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   company_id UUID REFERENCES public.companies(id) ON DELETE CASCADE,
   user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
   user_name TEXT,
@@ -288,7 +288,7 @@ ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
 -- NOTIFICATIONS
 -- ============================================================
 CREATE TABLE public.notifications (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   title TEXT NOT NULL,
   message TEXT NOT NULL,
