@@ -16,7 +16,7 @@ import { Audit } from '@/pages/Audit'
 import { Settings } from '@/pages/Settings'
 import { Login } from '@/pages/Login'
 import { useAuthStore } from '@/stores/auth-store'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,7 +31,20 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const { isAuthenticated } = useAuthStore()
+  const { isAuthenticated, loadSession } = useAuthStore()
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    loadSession().finally(() => setLoading(false))
+  }, [loadSession])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+      </div>
+    )
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
